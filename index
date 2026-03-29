@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  :root {
+    /* BRAND COLORS */
+    --brand-green: #8fb63e;
+    --brand-mid: #6f8a2f;
+    --brand-bright: #accf5e;
+    --brand-mint: #d0e1a8;
+
+    /* CAROUSEL GEOMETRY */
+    --card-width: 240px;
+    --card-height: 330px;
+    --orbit-radius: 420px;
+    --total-cards: 6;
+  }
+
+  /* 1. FUNCTIONING: DYNAMIC BACKGROUND 
+     The gradient flows behind a semi-transparent palm overlay.
+  */
+  body, html {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Helvetica Neue', sans-serif;
+    background: linear-gradient(270deg, var(--brand-green), var(--brand-mid), var(--brand-bright), var(--brand-mint));
+    background-size: 400% 400%;
+    animation: flowGreen 15s ease infinite;
+  }
+
+  @keyframes flowGreen {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  /* 2. FUNCTIONING: PARALLAX OVERLAY
+     Creates the 'Fresh Texture' by swaying an image independently of the carousel.
+  */
+  .tree-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: url('https://images.unsplash.com/photo-1515150144380-bca9f1650ed9?q=80&w=2000') center/cover;
+    opacity: 0.35;
+    filter: saturate(1.4);
+    animation: swayTree 30s ease-in-out infinite alternate;
+  }
+
+  @keyframes swayTree {
+    from { transform: scale(1.1); }
+    to { transform: scale(1.2) rotate(2deg); }
+  }
+
+  /* 3. NAVIGATION */
+  nav {
+    position: fixed;
+    top: 0; width: 100%;
+    padding: 30px 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    z-index: 1000;
+  }
+
+  .logo-container { width: 150px; }
+  .nav-links { display: flex; gap: 40px; }
+  .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    opacity: 0.8;
+  }
+
+  /* 4. FUNCTIONING: OPTIMIZED 3D ORBIT
+     Instead of writing .c1, .c2, etc., we calculate the rotation 
+     using CSS calc() and the nth-child index.
+  */
+  .container {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1800px;
+  }
+
+  .carousel {
+    position: relative;
+    width: var(--card-width);
+    height: var(--card-height);
+    transform-style: preserve-3d;
+    animation: rotateWheel 25s infinite linear;
+  }
+
+  @keyframes rotateWheel {
+    from { transform: rotateY(0deg); }
+    to { transform: rotateY(360deg); }
+  }
+
+  .card {
+    position: absolute;
+    inset: 0;
+    background: white;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+    border: 6px solid white;
+    backface-visibility: visible;
+  }
+
+  /* MATHEMATICAL PLACEMENT 
+     Each card is rotated by (360 / total_cards * index)
+  */
+  .card:nth-child(1) { transform: rotateY(calc(360deg / var(--total-cards) * 0)) translateZ(var(--orbit-radius)); }
+  .card:nth-child(2) { transform: rotateY(calc(360deg / var(--total-cards) * 1)) translateZ(var(--orbit-radius)); }
+  .card:nth-child(3) { transform: rotateY(calc(360deg / var(--total-cards) * 2)) translateZ(var(--orbit-radius)); }
+  .card:nth-child(4) { transform: rotateY(calc(360deg / var(--total-cards) * 3)) translateZ(var(--orbit-radius)); }
+  .card:nth-child(5) { transform: rotateY(calc(360deg / var(--total-cards) * 4)) translateZ(var(--orbit-radius)); }
+  .card:nth-child(6) { transform: rotateY(calc(360deg / var(--total-cards) * 5)) translateZ(var(--orbit-radius)); }
+
+  .card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .footer-url {
+    position: fixed;
+    bottom: 30px;
+    right: 40px;
+    color: rgba(255,255,255,0.6);
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+
+  <div class="tree-overlay"></div>
+
+  <nav>
+    <div class="logo-container">
+   <img src="B5B6F6BA-0E6F-4E8B-A468-F590DA59CF29.jpeg" alt="Cocoz Logo" style="width: 100%;">
+    </div>
+    <div class="nav-links">
+      <a href="cocoz about"'">About</a>
+      <a href="cocoz product">Products</a>
+      <a href="cocoz leadership">Leadership</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="carousel">
+      <div class="card"><img src="Pina colada.png" alt="Coconut Tree"></div>
+      <div class="card"><img src="Coco coffee.png" alt="leader photo"></div>
+      <div class="card"><img src="Coco ice cream .png"" alt="Canned Juice"></div>
+      <div class="card"><img src="Coco matcha.png" alt="Fresh Pour"></div>
+      <div class="card"><img src="Coco shake.png" alt="Green Bottle"></div>
+      <div class="card"><img src="Kiwi.png" alt="Harvest"></div>
+    </div>
+  </div>
+
+  <div class="footer-url">COCOZ.XYZ</div>
+
+</body>
+</html>
